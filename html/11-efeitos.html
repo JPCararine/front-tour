@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React.JS </title>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+
+    <script type="text/babel">
+        const CounterContext = React.createContext();
+
+        function CounterProvider({children}) {
+            const [savedNums, setSavedNums] = React.useState([]);
+
+            function saveNum(numero) {
+                setSavedNums((prev) => [...prev, numero]);
+            }
+            return (
+                <CounterContext.Provider value={{ savedNums, saveNum}}>
+                    {children}
+                </CounterContext.Provider>
+            )
+        }
+
+        function Contador() {
+            const [numero, setNumero] = React.useState(0);
+            const {saveNum} = React.useContext(CounterContext);
+
+            React.useEffect(() => {
+                console.log("Número mudou", numero)
+                }, [numero])
+        
+
+            return (
+                <div className="flex flex-col items-start">
+                    <p>{numero}</p>
+                <button type="button" onClick={() => setNumero(10)}>Atualizar</button>
+                <button type="button" onClick={() => setNumero((prev) => prev + 1)}>Aumentar</button>
+                <button type="button" onClick={() => setNumero((prev) => prev - 1 )}>Diminuir</button>
+                <button type="button" onClick={() => saveNum(numero)}>Salvar</button>
+                </div>
+            )
+        }
+        
+        function ListarValores() {
+            const {savedNums} = React.useContext(CounterContext);
+            return (
+                <div>
+                    <h2>Valores Salvos</h2>
+                    <ul>
+                        {savedNums
+                            .map((value, index) => 
+                            <li key={`item-${index}`}>{value}</li>
+                        )}
+                        
+                    </ul>
+                </div>
+            )
+        }
+
+        function App() {
+            return (
+                <main className="p-3">
+                    <CounterProvider>
+                    <Contador />
+                    <hr />
+                    <ListarValores />
+                    </CounterProvider>
+                </main>
+            )
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />)
+    </script>
+
+</body>
+</html>

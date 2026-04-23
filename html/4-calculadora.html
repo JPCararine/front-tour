@@ -53,9 +53,22 @@
 
         function CounterProvider({children}) {
             const [savedNums, setSavedNums] = React.useState([]);
+            const historyStorageKey = "history";
+
+            React.useEffect(() => {
+              const savedHistory = localStorage.getItem(historyStorageKey);
+              setSavedNums(JSON.parse(savedHistory || "[]"))
+            }, [])
 
             function saveNum(numero) {
-                setSavedNums((prev) => [...prev, numero]);
+                setSavedNums((prev) => {
+                const updatedHistory = [...prev, numero];
+
+                localStorage.setItem(historyStorageKey, JSON.stringify(updatedHistory)
+              )
+              return updatedHistory;
+            });
+                
             }
             return (
                 <CounterContext.Provider value={{ savedNums, saveNum, setSavedNums}}>
@@ -229,8 +242,6 @@
       
     }
     
-    
-    
     setOperation(`${operation} ${input}`);
     
   }
@@ -268,23 +279,31 @@
       }
       function HistoryCalculator() {
         const {savedNums, setSavedNums} = React.useContext(CounterContext);
+        
         function apagarRegistros() {
           setSavedNums([]);
+          localStorage.removeItem("history");
         }
         return (
           <Card className={`
              py-4 px-8
             `}>
             
-            <Text as="h1" variant="heading" className="mb-4 ">Histórico de Operações</Text>
-            {savedNums.length > 0 && (
+            <Text as="h1" variant="heading" className="mb-1">Histórico de Operações</Text>
+            {savedNums.length > 0 ? (
             <div className="flex justify-end">
               <Button onClick={apagarRegistros}>
                 <i className="fa-solid fa-trash"></i>
               </Button>
             </div>
-          )
+            ) : <Text as="h1" variant="muted">Nenhuma operação recente</Text> 
           }
+          
+             
+                
+            
+            
+          
             <ul className="flex flex-col gap-3">
               
               {savedNums
@@ -295,7 +314,7 @@
               
               
             </ul>
-            
+          
           </Card>
         )
       }
