@@ -186,17 +186,13 @@
               </div>
         )
       }
-      
- 
-      function Calculator() {
-  const [operation, setOperation] = React.useState("");
-  const [result, setResult] = React.useState("");
-  const {saveNum} = React.useContext(CounterContext);
-  
+      function useCalculator() {
+        const [operation, setOperation] = React.useState("");
+        const [result, setResult] = React.useState("");
+        const {saveNum} = React.useContext(CounterContext);
 
-  
-  function handleInputClick(input) {
-    const isNumber = !isNaN(input);
+        function doOperation(input) {
+          const isNumber = !isNaN(input);
     if(input === "=") {
       const operationResult = eval(operation.replace(/,/g, "."));
       const parsedResult = parseFloat(operationResult.toFixed(10))
@@ -243,6 +239,23 @@
     }
     
     setOperation(`${operation} ${input}`);
+    
+  }
+        return {
+        operation,
+        result,
+        doOperation
+        }
+        }
+      
+      
+ 
+      function Calculator() {
+        const { operation, result, doOperation} = useCalculator();
+  
+  
+  function handleInputClick(input) {
+    doOperation(input);
     
   }
 
