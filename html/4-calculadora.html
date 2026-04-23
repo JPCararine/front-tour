@@ -6,6 +6,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rubik&display=swap" rel="stylesheet">
+    <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
     <title>React.JS </title>
     <style type="text/tailwindcss">
     @theme {
@@ -42,8 +46,23 @@
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    
 
     <script type="text/babel">
+      const CounterContext = React.createContext();
+
+        function CounterProvider({children}) {
+            const [savedNums, setSavedNums] = React.useState([]);
+
+            function saveNum(numero) {
+                setSavedNums((prev) => [...prev, numero]);
+            }
+            return (
+                <CounterContext.Provider value={{ savedNums, saveNum, setSavedNums}}>
+                    {children}
+                </CounterContext.Provider>
+            )
+        }
       const textVariants = {
         default: 'text-xl',
         muted: 'text-xl text-(--text-secondary)',
@@ -159,6 +178,7 @@
       function Calculator() {
   const [operation, setOperation] = React.useState("");
   const [result, setResult] = React.useState("");
+  const {saveNum} = React.useContext(CounterContext);
   
 
   
@@ -170,6 +190,7 @@
       .toString()
       .replace(/\./g, ",");
       setResult(parsedResult);
+      saveNum(`${operation} = ${parsedResult}`);
       return;
     }
     if(input === "C") {
@@ -246,20 +267,35 @@
         )
       }
       function HistoryCalculator() {
+        const {savedNums, setSavedNums} = React.useContext(CounterContext);
+        function apagarRegistros() {
+          setSavedNums([]);
+        }
         return (
           <Card className={`
-             py-10 px-8
+             py-4 px-8
             `}>
-            <Text as="h1" variant="heading" className="mb-4">Histórico de Operações</Text>
-
+            
+            <Text as="h1" variant="heading" className="mb-4 ">Histórico de Operações</Text>
+            {savedNums.length > 0 && (
+            <div className="flex justify-end">
+              <Button onClick={apagarRegistros}>
+                <i className="fa-solid fa-trash"></i>
+              </Button>
+            </div>
+          )
+          }
             <ul className="flex flex-col gap-3">
               
-              <Text as="li">1 + 1 = 2</Text>
-              <Text as="li">2 + 3 + 1 = 6</Text>
-              <Text as="li">2 + 3 = 5</Text>
+              {savedNums
+                .map((value, index) =>
+                <Text as="li" key={`${index}`}>{value}</Text>
+              )
+              }
               
               
             </ul>
+            
           </Card>
         )
       }
@@ -267,8 +303,10 @@
         function App() {
             return (
             <main className="py-28 px-4 flex flex-col sm:flex-row items-center sm:items-stretch gap-2">
+              <CounterProvider>
               <Calculator></Calculator>
               <HistoryCalculator></HistoryCalculator>
+              </CounterProvider>
             </main>
         )
         }
