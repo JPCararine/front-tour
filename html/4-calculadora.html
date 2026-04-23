@@ -184,7 +184,7 @@
     }
     if(result) {
       setOperation(isNumber ? 
-      `${result}${input === "," ? "" : " "}${input}` : input);
+      `${result}${input === "," ? "" : " "}${input}` : `${result} ${input}`);
       setResult("")
       return;
       
@@ -198,7 +198,16 @@
       const needsSpace = operation.length > 0 && !operation.endsWith(",") && isNaN(operation.slice(-1));
       setOperation(`${operation}${needsSpace ? " " : ""}${input}`)
       return;
+    } else {
+      const lastChar = operation.trim().slice(-1);
+      const isOperator = isNaN(lastChar) && lastChar !== "";
+      if(isOperator) {
+        setOperation(`${operation.trim().slice(0, -1).trim()} ${input}`);
+        return;
+      } 
+      
     }
+    
     
     
     setOperation(`${operation} ${input}`);
