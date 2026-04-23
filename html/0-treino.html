@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React.JS </title>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+
+    <script type="text/babel">
+
+        const products = [
+  { id: 1, name: "Notebook", price: 3500 },
+  { id: 2, name: "Mouse", price: 80 },
+  { id: 3, name: "Teclado", price: 150 },
+  { id: 4, name: "Monitor", price: 900 }
+];
+    
+        
+        
+
+        function ListarPessoas() {
+            const [list, setList] = React.useState(products);
+            const [search, setSearch] = React.useState("");
+            
+            return (
+                <div className="flex flex-col items-start">
+                    <input
+                    type="text"
+                    placeholder="Busca produto..."
+                    value={search}
+                    onChange={e => setSearch(e.target.value)}
+                    />
+                <ul>
+                    {list
+                        .filter(product => 
+                        product.name.toLowerCase().includes(search.toLowerCase()))
+                        
+                        .map((product, index) => (
+                        <li key={product.id}>{product.name} - {product.price}</li>
+                    ))
+                    
+                    }
+                </ul>
+                </div>
+            
+            )
+        }
+
+        function App() {
+            return (
+                <main class="p-3">
+                    <ListarPessoas />
+                </main>
+            )
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />)
+    </script>
+
+</body>
+</html>
