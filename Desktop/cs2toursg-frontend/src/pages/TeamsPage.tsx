@@ -69,7 +69,7 @@ export default function TeamsPage() {
           <span className="font-body-md text-on-surface-variant">{error}</span>
         </div>
       ) : (
-        <div className="w-full max-w-container-max grid grid-cols-1 lg:grid-cols-2 gap-gutter items-start">
+        <div className="w-full max-w-container-max grid grid-cols-1 lg:grid-cols-2 gap-gutter items-stretch">
           {/* Confirmados */}
           <section className="glass-panel rounded-xl p-6 md:p-8 border-l-2 border-secondary">
             <div className="flex items-center justify-between gap-4 border-b border-outline-variant/30 pb-4 mb-6">
