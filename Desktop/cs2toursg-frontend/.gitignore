@@ -1,0 +1,17 @@
+node_modules
+dist
+dist-ssr
+*.local
+.vite
+.env
+.env.*
+!.env.example
+
+# editor
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+
+# project scratch
+_stitch_extract/

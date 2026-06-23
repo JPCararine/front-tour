@@ -1,0 +1,54 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background-color: #020617; /* High-stakes dark base */
+  color: #dae2fd;
+}
+
+.material-symbols-outlined {
+  font-family: "Material Symbols Outlined";
+  font-weight: normal;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  font-variation-settings: "FILL" 0;
+}
+
+.glass-panel {
+  background: rgba(30, 41, 59, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.input-glow:focus {
+  border-color: #d0bcff;
+  box-shadow: 0 0 10px rgba(208, 188, 255, 0.3);
+  outline: none;
+}
+
+.reader-mode {
+  background-color: #131b2e;
+  border: 1px solid #494454;
+  border-radius: 0.25rem;
+}
+
+@keyframes pulse-border {
+  0%,
+  100% {
+    box-shadow: 0 0 8px rgba(78, 222, 163, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 16px rgba(78, 222, 163, 0.7);
+  }
+}
+
+.live-pulse {
+  animation: pulse-border 2s infinite;
+}
