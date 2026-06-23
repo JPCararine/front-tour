@@ -28,6 +28,13 @@ export interface DashboardResponse {
   totalConfirmadas: number;
 }
 
+/** Dados exibidos na tela de pagamento acessada pelo link enviado por e-mail. */
+export interface PaymentInfo {
+  copyPaste: string;
+  discordUrl: string;
+  status: TeamStatus;
+}
+
 /** Erro de validação (HTTP 400) — `errors` mapeia campo -> mensagem. */
 export interface ValidationError {
   tipo: "validacao";

@@ -1,6 +1,7 @@
 import type {
   ApiError,
   DashboardResponse,
+  PaymentInfo,
   TeamRegistrationRequest,
   TeamRegistrationResponse,
 } from "./types";
@@ -57,6 +58,36 @@ export async function carregarDashboard(): Promise<DashboardResponse> {
     throw serverError("Não foi possível carregar a lista de times.");
   }
   return (await resp.json()) as DashboardResponse;
+}
+
+/** URL do PNG do QR Code Pix, conforme `GET /api/payments/{billingId}/qr.png`. */
+export function qrCodeUrl(billingId: string): string {
+  return `${BASE_URL}/api/payments/${billingId}/qr.png`;
+}
+
+/**
+ * Carrega o copia-e-cola, o link do Discord e o status atual de uma cobranca,
+ * para a tela acessada pelo link de pagamento enviado por e-mail ao capitao.
+ */
+export async function carregarPagamento(billingId: string): Promise<PaymentInfo> {
+  let resp: Response;
+  try {
+    resp = await fetch(`${BASE_URL}/api/payments/${billingId}`, {
+      headers: { Accept: "application/json" },
+    });
+  } catch {
+    throw serverError("Não foi possível carregar os dados de pagamento.");
+  }
+
+  if (resp.status === 404) {
+    throw serverError("Link de pagamento inválido ou expirado.");
+  }
+
+  if (!resp.ok) {
+    throw serverError("Não foi possível carregar os dados de pagamento.");
+  }
+
+  return (await resp.json()) as PaymentInfo;
 }
 
 function serverError(message: string): ApiError {
