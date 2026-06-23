@@ -1,0 +1,10 @@
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: cs2toursg-frontend:latest
+    container_name: cs2toursg-frontend
+    ports:
+      - "8080:80"
+    restart: unless-stopped
