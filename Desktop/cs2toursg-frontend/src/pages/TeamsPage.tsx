@@ -80,7 +80,7 @@ export default function TeamsPage() {
               <div className="text-right">
                 <div className="font-display-lg-mobile text-display-lg-mobile text-secondary leading-none">
                   {totalConfirmadas}
-                  <span className="text-on-surface-variant">/{TOTAL_VAGAS}</span>
+                  <span className="text-on-surface-variant"> / {TOTAL_VAGAS}</span>
                 </div>
                 <span className="font-label-caps text-label-caps text-on-surface-variant uppercase">
                   Vagas preenchidas
