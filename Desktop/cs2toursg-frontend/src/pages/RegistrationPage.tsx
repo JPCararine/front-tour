@@ -107,9 +107,9 @@ export default function RegistrationPage() {
           </h1>
           <p className="font-body-lg text-on-surface-variant">
             A manifestação de interesse do time <strong className="text-primary">{form.teamName}</strong>{" "}
-            foi registrada. Enviamos o <strong>QR Code do Pix</strong> para o e-mail{" "}
-            <strong className="text-primary">{form.captainEmail}</strong>. A vaga só será confirmada
-            após o pagamento da taxa de inscrição.
+            foi registrada. Enviamos um <strong>link de confirmação</strong> para o e-mail{" "}
+            <strong className="text-primary">{form.captainEmail}</strong>. A inscrição é gratuita —
+            a vaga só será confirmada após clicar no link e confirmar o time no site.
           </p>
           <p className="font-label-caps text-label-caps text-outline uppercase">
             Não esqueça de verificar a caixa de spam.
@@ -127,9 +127,9 @@ export default function RegistrationPage() {
           Manifestação de Interesse
         </h1>
         <p className="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">
-          Registre o interesse da sua equipe no campeonato de Counter-Strike 2. O envio deste
-          formulário não garante vaga — a confirmação ocorre apenas após o pagamento da taxa de
-          inscrição, cujo Pix será enviado ao e-mail do capitão.
+          Registre o interesse da sua equipe no campeonato de Counter-Strike 2. A inscrição é{" "}
+          <strong className="text-secondary">gratuita</strong> — o envio deste formulário não
+          garante vaga: a confirmação ocorre pelo link enviado ao e-mail do capitão.
         </p>
       </div>
 
@@ -321,7 +321,8 @@ export default function RegistrationPage() {
                 <span className="font-label-caps text-label-caps text-outline group-hover:text-on-surface transition-colors leading-tight uppercase">
                   Declaro, em nome da equipe, que todos os integrantes leram, compreenderam e
                   concordam com o regulamento e as cláusulas. Reconheço que o envio representa apenas
-                  manifestação de interesse e que a vaga só será confirmada após o pagamento.
+                  manifestação de interesse e que a vaga só será confirmada após a confirmação pelo
+                  link enviado por e-mail.
                 </span>
               </label>
             </div>

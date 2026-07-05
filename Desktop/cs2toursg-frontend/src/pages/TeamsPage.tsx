@@ -52,7 +52,7 @@ export default function TeamsPage() {
         </h1>
         <p className="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">
           Acompanhe as equipes que manifestaram interesse no campeonato e o status de cada inscrição.
-          As vagas são confirmadas conforme a ordem dos pagamentos recebidos.
+          A inscrição é gratuita e as vagas são confirmadas conforme a ordem das confirmações.
         </p>
       </div>
 
@@ -121,7 +121,7 @@ export default function TeamsPage() {
                   {totalPendentes}
                 </div>
                 <span className="font-label-caps text-label-caps text-on-surface-variant uppercase">
-                  Aguardando pagamento
+                  Aguardando confirmação
                 </span>
               </div>
             </div>
@@ -139,6 +139,52 @@ export default function TeamsPage() {
         </div>
       )}
 
+      {/* Como funciona a inscrição */}
+      <section className="w-full max-w-container-max mt-16">
+        <div className="glass-panel rounded-xl p-6 md:p-10">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 border-b border-outline-variant/30 pb-6 mb-8">
+            <div className="flex items-center gap-3 text-primary">
+              <span className="material-symbols-outlined text-[32px]">route</span>
+              <h2 className="font-headline-md text-headline-md uppercase">
+                Como funciona a inscrição
+              </h2>
+            </div>
+            <span className="inline-flex items-center gap-2 self-start md:self-auto bg-secondary/15 border border-secondary/40 text-secondary font-label-caps text-label-caps uppercase px-4 py-2 rounded-full">
+              <span className="material-symbols-outlined text-[18px]">celebration</span>
+              100% gratuita — sem taxa de inscrição
+            </span>
+          </div>
+
+          <ol className="grid grid-cols-1 md:grid-cols-4 gap-gutter">
+            {PASSOS_INSCRICAO.map((passo, i) => (
+              <li
+                key={passo.titulo}
+                className="bg-surface-container-low/60 border border-white/5 rounded-lg p-5 flex flex-col gap-3"
+              >
+                <div className="flex items-center gap-3">
+                  <span className="font-display-lg-mobile text-display-lg-mobile text-primary leading-none">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <span className="material-symbols-outlined text-on-surface-variant">
+                    {passo.icone}
+                  </span>
+                </div>
+                <h3 className="font-headline-md text-on-surface font-bold uppercase">
+                  {passo.titulo}
+                </h3>
+                <p className="font-body-md text-on-surface-variant">{passo.texto}</p>
+              </li>
+            ))}
+          </ol>
+
+          <p className="mt-8 font-body-md text-on-surface-variant text-center">
+            Todo o processo é <strong className="text-secondary">gratuito</strong> — não há
+            cobrança em nenhuma etapa. A vaga da equipe só é garantida após a confirmação pelo
+            link enviado por e-mail, então fique de olho na caixa de entrada (e no spam).
+          </p>
+        </div>
+      </section>
+
       {/* CTA */}
       <div className="w-full max-w-container-max mt-12 flex flex-col items-center text-center gap-4">
         <p className="font-body-lg text-on-surface-variant">Sua equipe ainda não está na lista?</p>
@@ -152,6 +198,33 @@ export default function TeamsPage() {
     </main>
   );
 }
+
+const PASSOS_INSCRICAO = [
+  {
+    icone: "edit_note",
+    titulo: "Preencha o formulário",
+    texto:
+      "O capitão informa os dados da equipe e a disponibilidade na página de inscrição.",
+  },
+  {
+    icone: "mark_email_unread",
+    titulo: "Receba o e-mail",
+    texto:
+      "Enviamos um link de confirmação para o e-mail do capitão. Ele tem prazo de validade, então não demore.",
+  },
+  {
+    icone: "task_alt",
+    titulo: "Confirme o time",
+    texto:
+      "O link traz de volta ao site: basta clicar em Confirmar Time para garantir a vaga. Sem pagamento, sem taxa.",
+  },
+  {
+    icone: "forum",
+    titulo: "Entre no Discord",
+    texto:
+      "Na mesma página, entre no Discord do campeonato para receber os próximos avisos da organização.",
+  },
+] as const;
 
 function TeamRow({ team, index }: { team: TeamSummary; index: number }) {
   return (

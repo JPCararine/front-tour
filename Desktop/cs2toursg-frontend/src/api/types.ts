@@ -28,11 +28,11 @@ export interface DashboardResponse {
   totalConfirmadas: number;
 }
 
-/** Dados exibidos na tela de pagamento acessada pelo link enviado por e-mail. */
-export interface PaymentInfo {
-  copyPaste: string;
-  discordUrl: string;
+/** Dados exibidos na tela de confirmação acessada pelo link enviado por e-mail. */
+export interface ConfirmationInfo {
   status: TeamStatus;
+  teamName: string;
+  discordUrl: string;
 }
 
 /** Erro de validação (HTTP 400) — `errors` mapeia campo -> mensagem. */

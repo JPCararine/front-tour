@@ -1,7 +1,7 @@
 import type {
   ApiError,
+  ConfirmationInfo,
   DashboardResponse,
-  PaymentInfo,
   TeamRegistrationRequest,
   TeamRegistrationResponse,
 } from "./types";
@@ -60,34 +60,37 @@ export async function carregarDashboard(): Promise<DashboardResponse> {
   return (await resp.json()) as DashboardResponse;
 }
 
-/** URL do PNG do QR Code Pix, conforme `GET /api/payments/{billingId}/qr.png`. */
-export function qrCodeUrl(billingId: string): string {
-  return `${BASE_URL}/api/payments/${billingId}/qr.png`;
+/**
+ * Fluxo B — carrega o nome do time, o link do Discord e o status atual da
+ * inscrição, para a tela acessada pelo link de confirmação enviado por e-mail
+ * ao capitão.
+ */
+export async function carregarConfirmacao(token: string): Promise<ConfirmationInfo> {
+  return confirmationRequest(`${BASE_URL}/api/confirmations/${token}`);
 }
 
-/**
- * Carrega o copia-e-cola, o link do Discord e o status atual de uma cobranca,
- * para a tela acessada pelo link de pagamento enviado por e-mail ao capitao.
- */
-export async function carregarPagamento(billingId: string): Promise<PaymentInfo> {
+/** Fluxo B — confirma a vaga da equipe usando o token recebido por e-mail. */
+export async function confirmarTime(token: string): Promise<ConfirmationInfo> {
+  return confirmationRequest(`${BASE_URL}/api/confirmations/${token}/confirm`, "POST");
+}
+
+async function confirmationRequest(url: string, method = "GET"): Promise<ConfirmationInfo> {
   let resp: Response;
   try {
-    resp = await fetch(`${BASE_URL}/api/payments/${billingId}`, {
-      headers: { Accept: "application/json" },
-    });
+    resp = await fetch(url, { method, headers: { Accept: "application/json" } });
   } catch {
-    throw serverError("Não foi possível carregar os dados de pagamento.");
+    throw serverError("Não foi possível carregar os dados da inscrição.");
   }
 
   if (resp.status === 404) {
-    throw serverError("Link de pagamento inválido ou expirado.");
+    throw serverError("Link de confirmação inválido ou expirado.");
   }
 
   if (!resp.ok) {
-    throw serverError("Não foi possível carregar os dados de pagamento.");
+    throw serverError("Não foi possível carregar os dados da inscrição.");
   }
 
-  return (await resp.json()) as PaymentInfo;
+  return (await resp.json()) as ConfirmationInfo;
 }
 
 function serverError(message: string): ApiError {
