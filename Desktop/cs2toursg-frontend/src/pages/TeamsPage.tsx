@@ -227,13 +227,26 @@ const PASSOS_INSCRICAO = [
 ] as const;
 
 function TeamRow({ team, index }: { team: TeamSummary; index: number }) {
+  const [expanded, setExpanded] = useState(false);
   return (
-    <li className="flex items-center justify-between gap-3 bg-surface-container-low/60 border border-white/5 rounded-lg px-4 py-3 hover:bg-surface-container-high/40 transition-colors">
-      <div className="flex items-center gap-3 min-w-0">
+    <li
+      onClick={() => setExpanded((prev) => !prev)}
+      title={team.teamName}
+      className={`flex justify-between gap-3 bg-surface-container-low/60 border border-white/5 rounded-lg px-4 py-3 hover:bg-surface-container-high/40 transition-colors cursor-pointer ${
+        expanded ? "items-start" : "items-center"
+      }`}
+    >
+      <div className={`flex gap-3 min-w-0 ${expanded ? "items-start" : "items-center"}`}>
         <span className="font-label-caps text-label-caps text-outline shrink-0">
           {String(index + 1).padStart(2, "0")}
         </span>
-        <div className="font-headline-md text-on-surface font-bold truncate">{team.teamName}</div>
+        <div
+          className={`font-headline-md text-on-surface font-bold ${
+            expanded ? "whitespace-normal break-words" : "truncate"
+          }`}
+        >
+          {team.teamName}
+        </div>
       </div>
       <StatusPill status={team.status} />
     </li>
